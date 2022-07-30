@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="PlaneMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+
+[node name="Plane" type="StaticBody"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = SubResource( 1 )

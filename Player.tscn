@@ -1,0 +1,109 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://Stats.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CylinderShape" id=6]
+radius = 0.489271
+height = 0.422274
+
+[sub_resource type="PrismMesh" id=1]
+size = Vector3( 2, 2, 1 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.137255, 0.133333, 0.133333, 1 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0.129412, 0.490196, 0.776471, 1 )
+
+[sub_resource type="CubeMesh" id=4]
+material = SubResource( 8 )
+size = Vector3( 3, 5, 8 )
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 0.505882, 0.858824, 0.454902, 1 )
+
+[sub_resource type="CylinderMesh" id=5]
+material = SubResource( 9 )
+height = 1.0
+
+[node name="Player" type="KinematicBody"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0868063 )
+shape = SubResource( 6 )
+
+[node name="Body" type="Spatial" parent="."]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+
+[node name="HeadPos" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.31697 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/HeadPos"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 7 )
+
+[node name="CenterPos" type="Position3D" parent="Body"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/CenterPos"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="LeftPos" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.724498, 0, 0.475453 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/LeftPos"]
+transform = Transform( 0.159369, 0, 0.120836, 0, 0.2, 0, -0.120836, 0, 0.159369, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="RightPos" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.718279, 0, 0.472604 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/RightPos"]
+transform = Transform( 0.159369, 0, -0.120836, 0, 0.2, 0, 0.120836, 0, 0.159369, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="LeftBackrPos" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/LeftBackrPos"]
+transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="RightBackrPos" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body/RightBackrPos"]
+transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="PlayerHurtArea" type="Area" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="PlayerHurtArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0868063 )
+shape = SubResource( 6 )
+
+[node name="Stats" parent="." instance=ExtResource( 2 )]
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="area_entered" from="PlayerHurtArea" to="." method="_on_PlayerHurtArea_area_entered"]
