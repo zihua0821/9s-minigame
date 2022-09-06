@@ -1,24 +1,28 @@
 extends Node
 
-var bullet = preload("res://Bullet.tscn")
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var playerBullet = preload("res://Bullets/PlayerBullet.tscn")
+var enemyBullet0 = preload("res://Bullets/EnemyBullet0.tscn")
+var enemyBullet1 = preload("res://Bullets/EnemyBullet1.tscn")
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
+func player_shoot(transform):
+	var bullet_i = playerBullet.instance()
+	var bullet_transform = transform
+#	bullet_transform.origin.y = 0.4
+	bullet_i.transform = bullet_transform
+	bullet_i.direction = -transform.basis.z
+	get_tree().get_root().get_node("World").add_child(bullet_i)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-func shoot_bullet(transform,bullet_from:String,color = Color(0,0,255)):
-	var bullet_i = bullet.instance()
+func shoot_bullet(transform):
+	var bullet_i
+	if rand_range(0,1) > 0.5:
+		bullet_i = enemyBullet0.instance()
+	else:
+		bullet_i = enemyBullet1.instance()
+	
 	var bullet_transform = transform
-	bullet_i.set_color(color)
-	bullet_i.set_bullet_from(bullet_from)
 	bullet_i.transform = bullet_transform
 	bullet_i.direction = -transform.basis.z
-	get_tree().get_root().add_child(bullet_i)
+	get_tree().get_root().get_node("World").add_child(bullet_i)

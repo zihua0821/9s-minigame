@@ -1,11 +1,7 @@
-[gd_resource type="MeshLibrary" load_steps=6 format=2]
+[gd_resource type="MeshLibrary" load_steps=5 format=2]
 
 [ext_resource path="res://assert/Plane.tres" type="Shape" id=1]
-
-[sub_resource type="SpatialMaterial" id=1]
-
-[sub_resource type="PlaneMesh" id=2]
-material = SubResource( 1 )
+[ext_resource path="res://assert/cubeplanemesh.tres" type="CubeMesh" id=2]
 
 [sub_resource type="Image" id=5]
 data = {
@@ -22,7 +18,7 @@ size = Vector2( 64, 64 )
 
 [resource]
 item/0/name = "MeshInstance"
-item/0/mesh = SubResource( 2 )
+item/0/mesh = ExtResource( 2 )
 item/0/mesh_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 item/0/shapes = [ ExtResource( 1 ), Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 ) ]
 item/0/navmesh_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )

@@ -5,6 +5,8 @@ extends KinematicBody
 # var a = 2
 # var b = "text"
 onready var stats = $Stats
+onready var gravity = -ProjectSettings.get_setting("physics/3d/default_gravity")
+var velocity:Vector3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,11 +16,17 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-func _physics_process(delta):
+func _physics_process(_delta):
+	velocity.y += _delta * gravity
+	velocity.x = 0
+	velocity.z = 0
+	var _collide = move_and_collide(velocity)
 	if stats.health <= 0:
 		queue_free()
-
-func _on_Area_area_entered(area):
+	rotate_y(PI/8 * _delta * 2)
+	
+	
+func _on_Area_area_entered(_area):
 	stats.health -= 1
 
 var r = 0
@@ -30,8 +38,7 @@ func _on_ShootTimer_timeout():
 	g = rand_range(0,1)
 	b = rand_range(0,1)
 	a = rand_range(0,1)
-	print(str(r)+ "," +str(g) + "," +str(b))
-	Game.shoot_bullet(transform,"enemy",Color(r,g,b,a))
+	Game.shoot_bullet($ShootFrom.global_transform)
 #	r += 0.01
 #	if r >= 1:
 #		r = 1
@@ -43,4 +50,3 @@ func _on_ShootTimer_timeout():
 #		r = 0
 #		g = 0
 #		b = 0
-	rotate_y(PI/8)

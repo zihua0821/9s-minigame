@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="PlaneMesh" id=2]
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 2, 0.2, 2 )
 
 [sub_resource type="SpatialMaterial" id=1]
 

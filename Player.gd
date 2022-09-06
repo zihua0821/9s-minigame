@@ -8,7 +8,7 @@ const DECELERATION = 4
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var can_shoot = true
+var can_shoot = false
 var _ray_from:= Vector3()
 var _ray_to:= Vector3()
 var _ray_length := 100.0
@@ -24,7 +24,7 @@ func _ready():
 #	transform.basis = Basis(Vector3(0, 1, 0), 1) * transform.basis
 
 
-	
+
 	pass # Replace with function body.
 var rot_x = 0
 var rot_y = 0
@@ -102,12 +102,10 @@ func _physics_process(delta):
 	# Jumping code. is_on_floor() must come after move_and_slide().
 	if is_on_floor() and Input.is_action_pressed("jump"):
 		velocity.y = JUMP_SPEED
-	if Input.is_action_just_pressed("shoot") and can_shoot:
-		Game.shoot_bullet(transform,"player")
-		can_shoot = false		
-	elif Input.is_action_pressed("shoot") and can_shoot:
-		Game.shoot_bullet(transform,"player")
+	if (Input.is_action_pressed("shoot")) and can_shoot:
+		Game.player_shoot($ShootFrom.global_transform)
 		can_shoot = false
+
 	
 	
 	
@@ -118,5 +116,5 @@ func _on_ShootTimer_timeout():
 	can_shoot = true
 
 
-func _on_PlayerHurtArea_area_entered(area):
+func _on_PlayerHurtArea_area_entered(_area):
 	stats.health -= 1
