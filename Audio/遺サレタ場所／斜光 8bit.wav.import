@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/遺サレタ場所／斜光 8bit.wav-aec0fd4c4283dd4cc1d08e5bd5c1db5c.sample"
+
+[deps]
+
+source_file="res://Audio/遺サレタ場所／斜光 8bit.wav"
+dest_files=[ "res://.import/遺サレタ場所／斜光 8bit.wav-aec0fd4c4283dd4cc1d08e5bd5c1db5c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

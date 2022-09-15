@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Stats.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BodyBuild.gd" type="Script" id=3]
 
 [sub_resource type="CylinderShape" id=6]
-radius = 0.907622
 height = 1.0
 
 [sub_resource type="ArrayMesh" id=7]
@@ -23,13 +22,50 @@ albedo_color = Color( 0.137255, 0.133333, 0.133333, 1 )
 
 [sub_resource type="ArrayMesh" id=11]
 
+[sub_resource type="Curve" id=15]
+min_value = -1.0
+_data = [ Vector2( 0.00869565, 0.0727273 ), 0.0, 0.0, 0, 0, Vector2( 0.978261, -0.872727 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=16]
+width = 128
+curve = SubResource( 15 )
+
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0.0130435, 0.0511364 ), 0.0, 0.0, 0, 0, Vector2( 0.682609, 1 ), -0.150482, -0.150482, 0, 0, Vector2( 1, 0.0602273 ), -7.13369, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=18]
+width = 128
+curve = SubResource( 17 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 3, 0 )
+initial_velocity = 0.3
+radial_accel = 1.0
+radial_accel_curve = SubResource( 16 )
+scale_curve = SubResource( 18 )
+
+[sub_resource type="SpatialMaterial" id=13]
+emission_enabled = true
+emission = Color( 0.921569, 0.905882, 0.768627, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="CubeMesh" id=14]
+material = SubResource( 13 )
+size = Vector3( 0.2, 0.2, 0.2 )
+
 [node name="Player" type="KinematicBody"]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0.0140497 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 shape = SubResource( 6 )
 
 [node name="Body" type="Spatial" parent="."]
@@ -70,14 +106,13 @@ mesh = SubResource( 11 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.12
-autostart = true
 
 [node name="PlayerHurtArea" type="Area" parent="."]
 collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="PlayerHurtArea"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0 )
 shape = SubResource( 6 )
 
 [node name="Stats" parent="." instance=ExtResource( 2 )]
@@ -85,5 +120,21 @@ shape = SubResource( 6 )
 [node name="ShootFrom" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.8 )
 
+[node name="InvincibleTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.576399 )
+emitting = false
+amount = 3
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.84
+process_material = SubResource( 12 )
+draw_pass_1 = SubResource( 14 )
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 [connection signal="area_entered" from="PlayerHurtArea" to="." method="_on_PlayerHurtArea_area_entered"]
+[connection signal="body_entered" from="PlayerHurtArea" to="." method="_on_PlayerHurtArea_body_entered"]
+[connection signal="timeout" from="InvincibleTimer" to="." method="_on_InvincibleTimer_timeout"]

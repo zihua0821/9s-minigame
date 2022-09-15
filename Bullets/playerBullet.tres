@@ -1,0 +1,18 @@
+[gd_resource type="CapsuleMesh" load_steps=2 format=2]
+
+[sub_resource type="SpatialMaterial" id=5]
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+roughness = 0.0
+emission_enabled = true
+emission = Color( 0.929412, 0.862745, 0.439216, 1 )
+emission_energy = 2.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[resource]
+material = SubResource( 5 )
+radius = 0.1
+mid_height = 0.5
+radial_segments = 4
+rings = 1

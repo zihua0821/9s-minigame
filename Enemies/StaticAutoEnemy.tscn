@@ -5,15 +5,18 @@
 [ext_resource path="res://Enemies/SeekArea.gd" type="Script" id=4]
 
 [sub_resource type="SphereShape" id=6]
+radius = 0.5
 
 [sub_resource type="SpatialMaterial" id=7]
 albedo_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="SphereMesh" id=5]
 material = SubResource( 7 )
+radius = 0.5
+height = 1.0
 
 [sub_resource type="CylinderShape" id=3]
-radius = 10.0
+radius = 30.0
 height = 10.0
 
 [node name="StaticAutoEnemy" type="KinematicBody"]
@@ -47,11 +50,10 @@ script = ExtResource( 4 )
 shape = SubResource( 3 )
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+wait_time = 0.1
 
 [node name="ShootFrom" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.01072 )
 
 [connection signal="area_entered" from="HurtArea" to="." method="_on_Area_area_entered"]
 [connection signal="body_entered" from="SeekArea" to="SeekArea" method="_on_SeekArea_body_entered"]
